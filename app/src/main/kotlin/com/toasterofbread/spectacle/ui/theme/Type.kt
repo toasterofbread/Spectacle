@@ -1,4 +1,4 @@
-package com.toasterofbread.spectre.ui.theme
+package com.toasterofbread.spectacle.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,7 +1,7 @@
-rootProject.name = "Spectre"
+rootProject.name = "Spectacle"
 
 include(":app")
-include(":ToasterComposeTools:lib")
+include(":ComposeKit:lib")
 
 pluginManagement {
     repositories {

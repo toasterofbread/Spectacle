@@ -1,8 +1,8 @@
-package com.toasterofbread.spectre.ui.layout
+package com.toasterofbread.spectacle.ui.layout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.toasterofbread.toastercomposetools.settings.ui.Theme
+import com.toasterofbread.composekit.settings.ui.Theme
 
 interface AppPage {
     @Composable

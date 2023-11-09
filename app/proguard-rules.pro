@@ -1,5 +1,5 @@
 -dontobfuscate
--keep class com.toasterofbread.spectre.** { *; }
+-keep class com.toasterofbread.spectacle.** { *; }
 
 -keepclassmembers enum * {
     public static **[] values();

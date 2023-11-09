@@ -15,11 +15,11 @@ val keystore_props = Properties()
 keystore_props.load(FileInputStream(keystore_props_file))
 
 android {
-    namespace = "com.toasterofbread.spectre"
+    namespace = "com.toasterofbread.spectacle"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
     defaultConfig {
-        applicationId = "com.toasterofbread.spectre"
+        applicationId = "com.toasterofbread.spectacle"
         minSdk = (findProperty("android.minSdk") as String).toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
         versionCode = 1
@@ -43,7 +43,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            manifestPlaceholders["appName"] = "Spectre (debug)"
+            manifestPlaceholders["appName"] = "Spectacle (debug)"
         }
         release {
             isMinifyEnabled = true
@@ -73,7 +73,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":ToasterComposeTools:lib"))
+    implementation(project(":ComposeKit:lib"))
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.0")

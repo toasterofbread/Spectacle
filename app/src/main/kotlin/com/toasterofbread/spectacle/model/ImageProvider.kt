@@ -1,4 +1,4 @@
-package com.toasterofbread.spectre.model
+package com.toasterofbread.spectacle.model
 
 import android.Manifest
 import android.content.ContentResolver
@@ -32,7 +32,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
-import com.toasterofbread.toastercomposetools.utils.composable.AlignableCrossfade
+import com.toasterofbread.composekit.utils.composable.AlignableCrossfade
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -113,6 +113,7 @@ class ImageProvider(private val activity: ComponentActivity) {
     fun CameraPreview(
         modifier: Modifier,
         front_lens: Boolean = false,
+        image_capture: ImageCapture? = null,
         content_modifier: Modifier = Modifier,
         content_alignment: Alignment = Alignment.Center
     ) {
@@ -131,6 +132,7 @@ class ImageProvider(private val activity: ComponentActivity) {
             if (granted == null) {
                 return@AlignableCrossfade
             }
+
             if (granted == false) {
                 Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("Camera permission not grantet")
@@ -149,8 +151,7 @@ class ImageProvider(private val activity: ComponentActivity) {
             val context: Context = LocalContext.current
             val lifecycle_owner: LifecycleOwner = LocalLifecycleOwner.current
 
-            val camera_view = remember { PreviewView(context) }
-            val image_capture: ImageCapture = remember { ImageCapture.Builder().build() }
+            val camera_view: PreviewView = remember { PreviewView(context) }
 
             LaunchedEffect(front_lens) {
                 val preview = Preview.Builder().build()

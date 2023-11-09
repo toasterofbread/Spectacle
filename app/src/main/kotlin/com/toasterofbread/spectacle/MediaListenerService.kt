@@ -1,4 +1,4 @@
-package com.toasterofbread.spectre
+package com.toasterofbread.spectacle
 
 import android.service.notification.NotificationListenerService
 
