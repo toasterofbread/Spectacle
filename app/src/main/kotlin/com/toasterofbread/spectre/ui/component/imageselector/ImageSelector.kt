@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.ui.component.imageselector
+package com.toasterofbread.spectre.ui.component.imageselector
 
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.toasterofbread.spectacle.model.ImageProvider
+import com.toasterofbread.spectre.model.ImageProvider
 import com.toasterofbread.composekit.settings.ui.Theme
 
 interface ImageSelector {

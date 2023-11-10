@@ -1,24 +1,42 @@
-package com.toasterofbread.spectacle.model
+package com.toasterofbread.spectre.model
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.os.Build
+import android.os.SystemClock
 import android.provider.MediaStore
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_UP
+import android.view.View
+import android.view.View.OnTouchListener
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.CameraX
+import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.MeteringPoint
+import androidx.camera.core.MeteringPointFactory
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.CameraController
+import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,18 +44,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
 import com.toasterofbread.composekit.utils.composable.AlignableCrossfade
+import com.toasterofbread.spectre.ui.component.PermissionRequestButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+
 
 class ImageProvider(private val activity: ComponentActivity) {
     private val permission_requester: ActivityResultLauncher<Array<String>>
@@ -109,18 +133,42 @@ class ImageProvider(private val activity: ComponentActivity) {
         return@withContext images
     }
 
+    @SuppressLint("ComposableNaming", "ClickableViewAccessibility")
     @Composable
     fun CameraPreview(
         modifier: Modifier,
         front_lens: Boolean = false,
-        image_capture: ImageCapture? = null,
         content_modifier: Modifier = Modifier,
-        content_alignment: Alignment = Alignment.Center
-    ) {
+        content_alignment: Alignment = Alignment.Center,
+        onPointFocused: (Offset) -> Unit = {}
+    ): CameraController {
         var permission_granted: Boolean? by remember { mutableStateOf(null) }
         LaunchedEffect(Unit) {
             requestCameraPermission { granted ->
                 permission_granted = granted
+            }
+        }
+
+        val context: Context = LocalContext.current
+        val lifecycle_owner: LifecycleOwner = LocalLifecycleOwner.current
+
+        val controller: LifecycleCameraController = remember { LifecycleCameraController(context) }
+        val camera_view: PreviewView = remember { PreviewView(context) }
+
+        DisposableEffect(Unit) {
+            controller.bindToLifecycle(lifecycle_owner)
+            camera_view.controller = controller
+
+            camera_view.performClick()
+            camera_view.setOnTouchListener { _, event ->
+                if (event.action == ACTION_UP) {
+                    onPointFocused(Offset(event.x, event.y))
+                }
+                return@setOnTouchListener false
+            }
+
+            onDispose {
+                controller.unbind()
             }
         }
 
@@ -134,48 +182,35 @@ class ImageProvider(private val activity: ComponentActivity) {
             }
 
             if (granted == false) {
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Camera permission not grantet")
-                    Button({
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    PermissionRequestButton("camera") {
                         permission_granted = null
                         requestCameraPermission { granted ->
                             permission_granted = granted
                         }
-                    }) {
-                        Text("Request permission")
                     }
                 }
                 return@AlignableCrossfade
             }
 
-            val context: Context = LocalContext.current
-            val lifecycle_owner: LifecycleOwner = LocalLifecycleOwner.current
+            val facing: Int =
+                if (front_lens) CameraSelector.LENS_FACING_FRONT
+                else CameraSelector.LENS_FACING_BACK
 
-            val camera_view: PreviewView = remember { PreviewView(context) }
-
-            LaunchedEffect(front_lens) {
-                val preview = Preview.Builder().build()
-                val selector = CameraSelector.Builder()
-                    .requireLensFacing(
-                        if (front_lens) CameraSelector.LENS_FACING_FRONT
-                        else CameraSelector.LENS_FACING_BACK
-                    )
+            LaunchedEffect(facing) {
+                camera_view.performClick()
+                controller.cameraSelector = CameraSelector.Builder()
+                    .requireLensFacing(facing)
                     .build()
-
-                val provider = context.getCameraProvider()
-                provider.unbindAll()
-                provider.bindToLifecycle(
-                    lifecycle_owner,
-                    selector,
-                    preview,
-                    image_capture
-                )
-
-                preview.setSurfaceProvider(camera_view.surfaceProvider)
             }
 
-            AndroidView({ camera_view }, content_modifier)
+            AndroidView(
+                { camera_view },
+                content_modifier
+            )
         }
+
+        return controller
     }
 
     private fun requestGalleryPermission(callback: (Boolean) -> Unit) {

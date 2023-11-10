@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.ui.modifier
+package com.toasterofbread.spectre.ui.modifier
 
 import android.app.Activity
 import android.graphics.Bitmap

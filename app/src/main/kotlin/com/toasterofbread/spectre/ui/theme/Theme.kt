@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.ui.theme
+package com.toasterofbread.spectre.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -38,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun SpectacleTheme(
+fun SpectreTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

@@ -1,4 +1,4 @@
-rootProject.name = "Spectacle"
+rootProject.name = "Spectre"
 
 include(":app")
 include(":ComposeKit:lib")

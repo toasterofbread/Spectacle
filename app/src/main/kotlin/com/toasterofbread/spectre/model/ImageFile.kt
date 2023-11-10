@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.model
+package com.toasterofbread.spectre.model
 
 import android.net.Uri
 

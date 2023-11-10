@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.ui.layout
+package com.toasterofbread.spectre.ui.layout
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import com.toasterofbread.composekit.settings.ui.Theme
-import com.toasterofbread.spectacle.model.ImageSaver
+import com.toasterofbread.spectre.model.ImageSaver
 
 class ImageAdjustPage(
     private val base_image: ImageBitmap,

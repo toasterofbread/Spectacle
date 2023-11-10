@@ -15,11 +15,11 @@ val keystore_props = Properties()
 keystore_props.load(FileInputStream(keystore_props_file))
 
 android {
-    namespace = "com.toasterofbread.spectacle"
+    namespace = "com.toasterofbread.spectre"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
     defaultConfig {
-        applicationId = "com.toasterofbread.spectacle"
+        applicationId = "com.toasterofbread.spectre"
         minSdk = (findProperty("android.minSdk") as String).toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
         versionCode = 1
@@ -43,7 +43,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            manifestPlaceholders["appName"] = "Spectacle (debug)"
+            manifestPlaceholders["appName"] = "Spectre (debug)"
         }
         release {
             isMinifyEnabled = true
@@ -91,4 +91,6 @@ dependencies {
     val camerax_version: String = "1.4.0-alpha02"
     implementation("androidx.camera:camera-camera2:$camerax_version")
     implementation("androidx.camera:camera-view:$camerax_version")
+
+    implementation("com.godaddy.android.colorpicker:compose-color-picker:0.7.0")
 }

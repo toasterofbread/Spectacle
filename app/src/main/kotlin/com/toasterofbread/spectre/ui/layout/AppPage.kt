@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.ui.layout
+package com.toasterofbread.spectre.ui.layout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

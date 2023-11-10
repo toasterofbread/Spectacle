@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.model
+package com.toasterofbread.spectre.model
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -10,8 +10,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import com.toasterofbread.composekit.platform.PlatformContext
-import com.toasterofbread.spectacle.R
-import com.toasterofbread.spectacle.ui.layout.ImageCapturePage
+import com.toasterofbread.spectre.R
+import com.toasterofbread.spectre.ui.layout.ImageCapturePage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File

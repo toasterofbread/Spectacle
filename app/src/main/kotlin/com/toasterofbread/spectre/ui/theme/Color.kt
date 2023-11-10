@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.ui.theme
+package com.toasterofbread.spectre.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

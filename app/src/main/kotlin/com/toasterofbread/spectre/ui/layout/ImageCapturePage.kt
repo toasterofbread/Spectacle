@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.ui.layout
+package com.toasterofbread.spectre.ui.layout
 
 import android.graphics.Bitmap
 import androidx.compose.animation.Crossfade
@@ -41,12 +41,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.toasterofbread.composekit.settings.ui.Theme
 import com.toasterofbread.composekit.utils.composable.ShapedIconButton
-import com.toasterofbread.spectacle.model.ImageProvider
-import com.toasterofbread.spectacle.ui.component.MediaSessionState
-import com.toasterofbread.spectacle.ui.component.MediaStatusDisplay
-import com.toasterofbread.spectacle.ui.component.imageselector.ImageSelector
-import com.toasterofbread.spectacle.ui.modifier.ComposableCaptureState
-import com.toasterofbread.spectacle.ui.modifier.rememberComposableCaptureState
+import com.toasterofbread.spectre.model.ImageProvider
+import com.toasterofbread.spectre.ui.component.MediaSessionState
+import com.toasterofbread.spectre.ui.component.MediaStatusDisplay
+import com.toasterofbread.spectre.ui.component.imageselector.ImageSelector
+import com.toasterofbread.spectre.ui.modifier.ComposableCaptureState
+import com.toasterofbread.spectre.ui.modifier.rememberComposableCaptureState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

@@ -1,4 +1,4 @@
-package com.toasterofbread.spectacle.ui.component.imageselector
+package com.toasterofbread.spectre.ui.component.imageselector
 
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,8 +33,8 @@ import coil.request.CachePolicy
 import coil.request.Disposable
 import coil.request.ImageRequest
 import coil.request.ImageResult
-import com.toasterofbread.spectacle.model.ImageFile
-import com.toasterofbread.spectacle.model.ImageProvider
+import com.toasterofbread.spectre.model.ImageFile
+import com.toasterofbread.spectre.model.ImageProvider
 import com.toasterofbread.composekit.settings.ui.Theme
 import com.toasterofbread.composekit.utils.composable.SubtleLoadingIndicator
 import kotlinx.coroutines.Deferred
