@@ -141,7 +141,7 @@ class ImageProvider(private val activity: ComponentActivity) {
         content_modifier: Modifier = Modifier,
         content_alignment: Alignment = Alignment.Center,
         onPointFocused: (Offset) -> Unit = {}
-    ): CameraController {
+    ): CameraController? {
         var permission_granted: Boolean? by remember { mutableStateOf(null) }
         LaunchedEffect(Unit) {
             requestCameraPermission { granted ->
@@ -153,6 +153,7 @@ class ImageProvider(private val activity: ComponentActivity) {
         val lifecycle_owner: LifecycleOwner = LocalLifecycleOwner.current
 
         val controller: LifecycleCameraController = remember { LifecycleCameraController(context) }
+        var controller_bound: Boolean by remember { mutableStateOf(false) }
         val camera_view: PreviewView = remember { PreviewView(context) }
 
         DisposableEffect(Unit) {
@@ -193,6 +194,14 @@ class ImageProvider(private val activity: ComponentActivity) {
                 return@AlignableCrossfade
             }
 
+            DisposableEffect(Unit) {
+                controller_bound = true
+
+                onDispose {
+                    controller_bound = false
+                }
+            }
+
             val facing: Int =
                 if (front_lens) CameraSelector.LENS_FACING_FRONT
                 else CameraSelector.LENS_FACING_BACK
@@ -210,7 +219,12 @@ class ImageProvider(private val activity: ComponentActivity) {
             )
         }
 
-        return controller
+        if (controller_bound) {
+            return controller
+        }
+        else {
+            return null
+        }
     }
 
     private fun requestGalleryPermission(callback: (Boolean) -> Unit) {

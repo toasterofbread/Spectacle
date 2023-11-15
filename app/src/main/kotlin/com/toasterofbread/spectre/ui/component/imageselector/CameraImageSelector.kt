@@ -61,10 +61,12 @@ class CameraImageSelector: ImageSelector {
     override fun getIcon(): ImageVector =
         Icons.Default.CameraAlt
 
-    private var camera_controller: CameraController? = null
+    private var camera_controller: CameraController? by mutableStateOf(null)
 
-    override suspend fun captureCurrentImage(context: Context): ImageBitmap? {
-        val controller: CameraController = camera_controller ?: return null
+    override fun canCaptureImage(): Boolean = camera_controller != null
+
+    override suspend fun captureCurrentImage(context: Context): ImageSelector.ImageSelectorCapture? {
+        val controller: CameraController = camera_controller!!
         var result: Result<ImageBitmap>? = null
 
         controller.takePicture(Executors.newSingleThreadExecutor(), object : ImageCapture.OnImageCapturedCallback() {
@@ -86,7 +88,7 @@ class CameraImageSelector: ImageSelector {
             delay(100)
         }
 
-        return result!!.getOrThrow()
+        return ImageSelector.ImageSelectorCapture(result!!.getOrThrow(), 1)
     }
 
     @Composable

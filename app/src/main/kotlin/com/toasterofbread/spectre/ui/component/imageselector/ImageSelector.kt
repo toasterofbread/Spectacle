@@ -14,7 +14,9 @@ import com.toasterofbread.composekit.settings.ui.Theme
 interface ImageSelector {
     fun getIcon(): ImageVector
 
-    suspend fun captureCurrentImage(context: Context): ImageBitmap?
+    data class ImageSelectorCapture(val image: ImageBitmap, val rotation: Int)
+
+    suspend fun captureCurrentImage(context: Context): ImageSelectorCapture?
     fun canCaptureImage(): Boolean = true
 
     @Composable

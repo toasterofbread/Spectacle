@@ -55,7 +55,7 @@ import java.util.Date
 abstract class ImageCapturePage(
     private val image_provider: ImageProvider
 ): AppPage {
-    data class CaptureData(val media_state: MediaSessionState?, val time: Date, val overlay_offset: Offset = Offset.Zero) {
+    data class CaptureData(val media_state: MediaSessionState?, val time: Date, val overlay_offset: Offset = Offset.Zero, val base_image_rotation: Int = 0) {
         fun getFilename(): String {
             return SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(time)
         }
@@ -150,15 +150,15 @@ abstract class ImageCapturePage(
                     {
                         coroutine_scope.launch {
                             val selector: ImageSelector = ImageSelector.ALL[current_selector]
-                            val selected: ImageBitmap = selector.captureCurrentImage(context) ?: return@launch
-                            val capture_data: CaptureData = CaptureData(current_media_state, Date())
+                            val capture: ImageSelector.ImageSelectorCapture = selector.captureCurrentImage(context) ?: return@launch
+                            val capture_data: CaptureData = CaptureData(current_media_state, Date(), base_image_rotation = capture.rotation)
 
                             if (adjust_on_capture) {
-                                adjustCapture(selected, capture_data)
+                                adjustCapture(capture.image, capture_data)
                             }
                             else {
                                 val media_capture: Bitmap = media_capture_state.capture()
-                                saveCapture(selected, media_capture.asImageBitmap(),capture_data)
+                                saveCapture(capture.image, media_capture.asImageBitmap(),capture_data)
                             }
                         }
                     },

@@ -15,7 +15,6 @@ import com.toasterofbread.spectre.ui.layout.ImageCapturePage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
-import kotlin.math.roundToInt
 
 class ImageSaver(private val context: PlatformContext) {
     suspend fun saveImage(base_image: ImageBitmap, overlay_image: ImageBitmap, capture_data: ImageCapturePage.CaptureData) = withContext(Dispatchers.IO) {
@@ -24,7 +23,7 @@ class ImageSaver(private val context: PlatformContext) {
 
         val matrix: Matrix = Matrix()
 
-        matrix.postRotate(90f)
+        matrix.postRotate(capture_data.base_image_rotation * 90f)
         matrix.postTranslate(base_image.height.toFloat(), 0f)
         canvas.drawBitmap(base_image.asAndroidBitmap(), matrix, Paint())
 

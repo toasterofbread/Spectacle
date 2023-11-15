@@ -50,7 +50,10 @@ class GalleryImageSelector: ImageSelector {
         Icons.Default.Photo
 
     private var current_image: ImageBitmap? = null
-    override suspend fun captureCurrentImage(context: Context): ImageBitmap? = current_image
+    override suspend fun captureCurrentImage(context: Context): ImageSelector.ImageSelectorCapture? =
+        current_image?.let { image ->
+            ImageSelector.ImageSelectorCapture(image, 0)
+        }
 
     @OptIn(ExperimentalFoundationApi::class, ExperimentalCoroutinesApi::class)
     @Composable
